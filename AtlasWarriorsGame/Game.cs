@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,14 @@ namespace AtlasWarriorsGame
         /// </summary>
         public Game()
         {
+            // Load the data from Monsters.Json into the Monster Factory
+            var monsterFile = System.IO.File.Open("data/monsters.json", System.IO.FileMode.Open);
+            // This line does too much.
+            // Read the file, into the JSON converter, into the Monster Factory.
+            // Any questions?
+            MonsterFactory.AddPrototypes(JsonConvert.DeserializeObject<Dictionary<String, JObject>>
+                ((new System.IO.StreamReader(monsterFile)).ReadToEnd()));
+
             // Construct dungeons
             // Not doing this tidily and programmicably - 'cause it is going to change and we don't
             // want 10 identically boring levels
